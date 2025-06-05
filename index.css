@@ -209,7 +209,7 @@ button:focus {
     border: none; /* Remove dashed border, card provides outline */
     min-height: 70px; 
     background-color: transparent; /* Card provides background */
-    overflow-x: auto; 
+    overflow-x: auto; /* Fallback for very narrow screens */
 }
 
 .info-message, .error-message {
@@ -248,91 +248,96 @@ button:focus {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
-    font-size: 0.9em;
-    border: 1px solid #dee2e6; /* Add border to the table itself */
+    font-size: 0.87em; /* Slightly reduced font size for better fit */
+    border: 1px solid #dee2e6;
+    table-layout: fixed; /* Critical for controlling column widths */
 }
 
 .results-table caption {
-    font-size: 1.2em; /* Slightly larger caption */
-    font-weight: 600; /* Bolder caption */
-    padding: 10px 0 15px 0; /* More space below caption */
-    color: #343a40; /* Darker caption text */
+    font-size: 1.2em; 
+    font-weight: 600; 
+    padding: 10px 0 15px 0; 
+    color: #343a40; 
     caption-side: top;
     text-align: left;
 }
 
 .results-table th,
 .results-table td {
-    border: 1px solid #e0e0e0; /* Slightly lighter cell borders */
-    padding: 0.6rem 0.75rem; /* Adjusted padding */
+    border: 1px solid #e0e0e0;
+    /* Base for day columns - make them narrow by default */
+    padding: 0.4rem 0.2rem; /* Reduced padding */
+    width: 22px; /* Content width for day columns */
+    text-align: center; /* Center S, C, + and day numbers/names */
+    white-space: normal; /* Allow wrapping if needed */
+    vertical-align: middle;
+    box-sizing: border-box; /* Ensure padding & border are included in width calculations if possible */
+}
+
+/* Override for the ID/Name column to be wider */
+.results-table th:first-child, /* Targets 'ID / TÊN NHÂN VIÊN' header */
+.results-table td:first-child {
+    min-width: 150px; 
+    width: 150px;    /* Can be a percentage like 20% if preferred, but fixed helps table-layout */
     text-align: left; 
-    white-space: nowrap; 
-}
-
-.results-table th {
-    vertical-align: middle; 
-    text-align: center; 
-    line-height: 1.4; 
-    background-color: #e9ecef; /* Light gray for headers */
-    font-weight: 500; /* Medium weight for headers */
-    color: #495057; /* Darker gray for header text */
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}
-
-.results-table thead tr:nth-child(2) th { /* Day of week row */
-    font-weight: normal;
-    font-size: 0.85em; /* Slightly larger */
-    color: #555;
-    background-color: #f8f9fa; /* Even lighter for day of week */
-}
-
-
-.results-table td:first-child { /* Allow wrapping for employee name + ID */
     white-space: normal; 
-    text-align: left;
-    min-width: 200px; /* Ensure name column has enough space */
+    padding: 0.4rem 0.6rem; /* More horizontal padding for names */
 }
+
+.results-table th { /* General header styling */
+    background-color: #e9ecef; 
+    font-weight: 500; 
+    color: #495057; 
+    position: sticky; /* Keep headers visible on vertical scroll */
+    top: 0;
+    z-index: 1; /* Ensure headers stay above content during scroll */
+    /* line-height: 1.4; already good */
+}
+
+.results-table thead tr:nth-child(2) th { /* Day of week row (T2, T3, etc.) */
+    font-weight: normal; /* Override general th bold */
+    font-size: 0.85em; /* Relative to table's font-size */
+    color: #555;
+    background-color: #f8f9fa; 
+}
+
 
 .results-table tbody tr:nth-child(even) {
-    background-color: #f8f9fa; /* Very light gray for even rows */
+    background-color: #f8f9fa; 
 }
 
 .results-table tbody tr:hover {
-    background-color: #e9ecef; /* Hover effect */
+    background-color: #e9ecef; 
 }
 
 /* Specific for timesheet table attendance marks */
 .timesheet-table .attendance-mark {
-    text-align: center;
-    font-weight: bold; /* Normal marks are bold */
+    /* text-align: center; now handled by general td/th */
+    font-weight: bold; 
 }
 
 .nguoi-thuc-hien-name {
-    /* font-weight: bold; removed */
+    /* Styles for NTH derived names if needed */
 }
 
 .nguoi-thuc-hien-date {
-    /* font-weight: bold; removed */
-    /* Normal marks are already bold via .attendance-mark, so NTH dates will also be bold if they have .attendance-mark. */
-    /* If NTH marks should NOT be bold, then .nguoi-thuc-hien-date would need font-weight: normal !important; */
-    /* However, the request is to remove *extra* NTH styling. Standard mark styling (bold) should apply if it's a mark. */
+    /* Styles for NTH derived dates if needed */
 }
 
 .weekend-header {
-    background-color: #f0f2f5 !important; /* Slightly distinct light gray for weekend headers */
-    color: #333;
+    background-color: #f0f2f5 !important; 
+    color: #333 !important; /* Ensure color overrides general th color */
 }
 
 .weekend-data-cell {
     background-color: #f0f2f5; 
 }
+/* Ensure weekend cell background overrides even row striping */
 .results-table tbody tr:nth-child(even) .weekend-data-cell {
     background-color: #f0f2f5; 
 }
 .results-table tbody tr:hover .weekend-data-cell {
-    background-color: #e2e6ea; 
+    background-color: #e2e6ea; /* Darker hover for weekend cells */
 }
 
 /* Drag and Drop Styles for Timesheet Table */
@@ -342,30 +347,28 @@ button:focus {
 
 .timesheet-table tbody tr.dragging {
     opacity: 0.6;
-    background-color: #dcedc8; /* Light green when dragging */
+    background-color: #dcedc8; 
     cursor: grabbing;
 }
 
 .timesheet-table tbody tr.drag-over-target {
-    outline: 2px dashed #007bff; /* Blue dashed outline as drop indicator */
-    outline-offset: -2px; /* Pull outline inside the cell borders */
-    background-color: #e6f2ff; /* Light blue background for drop target */
+    outline: 2px dashed #007bff; 
+    outline-offset: -2px; 
+    background-color: #e6f2ff; 
 }
 
-/* Optional: Style for all rows that are potential drop candidates (not the one being dragged) */
 .timesheet-table tbody tr.drop-candidate {
-    /* You can add subtle styling here if needed, e.g., a very light border or background change */
-    /* For now, drag-over-target provides the main feedback */
+    /* Optional styling for potential drop targets */
 }
 
 
 /* Footer Styles */
 .app-footer {
-    background-color: #343a40; /* Dark footer */
-    color: #f8f9fa; /* Light text on dark footer */
+    background-color: #343a40; 
+    color: #f8f9fa; 
     padding: 1.5rem 0;
     text-align: center;
-    margin-top: auto; /* Pushes footer to bottom if content is short */
+    margin-top: auto; 
     font-size: 0.9rem;
 }
 .footer-container {
@@ -400,15 +403,19 @@ button:focus {
         font-size: 1.75rem;
     }
      .results-table {
-        font-size: 0.85em;
+        font-size: 0.8em; /* Further reduce font on smaller screens */
     }
     .results-table th,
     .results-table td {
-        padding: 0.5rem 0.6rem;
+        padding: 0.3rem 0.15rem; /* Further reduce padding */
     }
-     .results-table thead tr:nth-child(2) th {
-        font-size: 0.8em;
-    }
+     .results-table th:first-child,
+     .results-table td:first-child {
+        padding: 0.3rem 0.4rem; /* Adjust ID column padding */
+        min-width: 120px; /* Allow ID column to shrink more */
+        width: 120px;
+     }
+
     .card h2, .results-card .results-title {
         font-size: 1.25rem;
     }
@@ -422,26 +429,24 @@ button:focus {
 
     input[type="file"], button {
         width: 100%;
-        box-sizing: border-box; /* Ensure padding/border doesn't expand width */
+        box-sizing: border-box; 
     }
     button:not(:last-child) {
-        margin-bottom: 10px; /* Space between stacked buttons */
+        margin-bottom: 10px; 
     }
     #processFileButton { 
         margin-top: 10px; 
     }
     .controls-section .controls #processFileButton { 
         margin-top: 0; 
-         /* If it's the second element in flex-column, it might get margin-top if first is file input */
-        /* This might need adjustment depending on exact flex behavior */
     }
      .controls input[type="file"] + #processFileButton {
-        margin-top: 10px; /* Specific space when button follows input in column */
+        margin-top: 10px; 
     }
 
 
     #downloadExcelButton {
-        width: auto; /* Let it size by content + padding */
+        width: auto; 
         max-width: calc(100% - 40px); 
     }
     
@@ -452,7 +457,8 @@ button:focus {
     .app-footer {
         padding: 1rem 0;
     }
-
+    /* On very small screens, the table might still scroll due to #resultContainer overflow-x: auto */
+    /* but the individual day columns will be as narrow as feasible. */
 }
 
 /* Specific adjustment for XML input and button layout at medium screens */
@@ -463,15 +469,15 @@ button:focus {
       }
       .controls-section .controls input[type="file"] {
         flex-grow: 1;
-        width: auto; /* Reset width */
+        width: auto; 
       }
        .controls-section .controls  #processFileButton {
          flex-grow: 0; 
-         width: auto; /* Reset width */
+         width: auto; 
          margin-top: 0;
-         margin-left: 10px; /* Space between input and button */
+         margin-left: 10px; 
        }
-       .controls input[type="file"] + #processFileButton { /* Override more general stacking rule */
+       .controls input[type="file"] + #processFileButton { 
             margin-top: 0;
        }
 }
