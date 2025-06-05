@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Bảng Chấm Công Bác Sĩ</title>
+    <link rel="stylesheet" href="index.css">
+    <!-- Changed to xlsx-js-style for better styling capabilities -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style/dist/xlsx.bundle.js"></script>
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-container">
+            <span>Trình Tạo Bảng Chấm Công Chuyên Nghiệp</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Tạo Bảng Chấm Công Bác Sĩ từ XML</h1>
+        <p class="app-description">
+            Tải lên một hoặc nhiều tệp XML chứa dữ liệu <code>&lt;MA_BAC_SI&gt;</code> và <code>&lt;NGAY_YL&gt;</code> (định dạng <code>yyyyMMddHHmm</code>)
+            trong các thẻ <code>&lt;CHI_TIET_THUOC&gt;</code> hoặc <code>&lt;CHI_TIET_DVKT&gt;</code>.
+            Ứng dụng sẽ tạo bảng chấm công tổng hợp cho tháng của dữ liệu đầu tiên được tìm thấy từ tất cả các tệp.
+        </p>
+        
+        <div class="controls-section card">
+            <h2>1. Tải Tệp Chấm Công XML</h2>
+            <div class="controls">
+                <label for="xmlFile" class="sr-only">Chọn các tệp XML</label>
+                <input type="file" id="xmlFile" accept=".xml" aria-describedby="xmlFileHelp" multiple>
+                <button id="processFileButton">Tạo Bảng Chấm Công</button>
+            </div>
+            <small id="xmlFileHelp" class="form-text">Chỉ chấp nhận tệp .xml. Có thể chọn nhiều tệp. Đây là bắt buộc.</small>
+        </div>
+
+        <div class="controls-section card">
+            <h2>2. Tải Danh Sách Nhân Viên (Tùy chọn)</h2>
+            <div class="controls">
+                <label for="excelFile" class="sr-only">Chọn tệp Excel danh sách nhân viên</label>
+                <input type="file" id="excelFile" accept=".xls,.xlsx,text/csv" aria-describedby="excelFileHelp">
+            </div>
+            <small id="excelFileHelp" class="form-text">Tệp .xls, .xlsx, hoặc .csv. Cần có cột "Tên nhân viên" và "Chứng chỉ hành nghề".</small>
+        </div>
+        
+        <div class="card results-card"> <!-- Added card class and a more specific results-card class -->
+            <h2 class="results-title">Bảng Chấm Công</h2> <!-- Optional: Title for the results area -->
+            <div id="resultContainer" role="status" aria-live="polite">
+                <p id="initialMessage">1. Tải lên một hoặc nhiều tệp XML chứa dữ liệu chấm công.<br>2. (Tùy chọn) Tải lên tệp Excel danh sách nhân viên.<br>3. Nhấp "Tạo Bảng Chấm Công".</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer">
+        <div class="footer-container">
+            <p>&copy; 2024 - Phát triển bởi Gemini AI</p>
+        </div>
+    </footer>
+    <script type="module" src="index.js"></script>
+</body>
+</html>

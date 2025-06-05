@@ -1,0 +1,452 @@
+
+
+/* General Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    margin: 0;
+    padding: 0; /* Removed default body padding, handled by sections */
+    background-color: #f8f9fa; /* Lighter overall background */
+    color: #212529; /* Darker text for better contrast */
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    width: 90%; 
+    max-width: 1200px; /* Max width for content */
+    margin: 20px auto; /* Spacing around the main content container */
+    padding: 0px; /* Remove padding from container, handled by cards/sections */
+}
+
+/* Header Styles */
+.app-header {
+    background-color: #005A9C; /* Professional blue */
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+/* Main Content Titles & Description */
+h1 {
+    color: #005A9C; /* Primary color */
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.app-description {
+    text-align: center;
+    color: #495057; /* Medium gray for description */
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+.app-description code {
+     background-color: #e9ecef;
+     padding: 0.2em 0.4em;
+     border-radius: 3px;
+     font-size: 0.9em;
+     color: #c82333; /* Softer red for code in description */
+}
+
+
+p {
+    margin-bottom: 1rem;
+}
+
+ul {
+    margin-bottom: 1rem;
+    padding-left: 20px;
+}
+li {
+    margin-bottom: 0.5rem;
+}
+
+code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #e9ecef;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+/* Card Styles for Sections */
+.card {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6; /* Lighter border */
+    border-radius: 0.5rem; /* Softer corners */
+    padding: 20px 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Subtle shadow */
+}
+
+.card h2 {
+    font-size: 1.4rem;
+    color: #005A9C; /* Primary color for section titles */
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecef; /* Lighter separator */
+    font-weight: 500;
+}
+
+/* Controls Area */
+.controls {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 5px; 
+    flex-wrap: wrap; 
+}
+
+input[type="file"] {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    font-size: 0.95rem;
+    flex-grow: 1; 
+    min-width: 200px; 
+    background-color: #fff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+input[type="file"]:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+
+input[type="file"]::file-selector-button {
+    padding: 0.6rem 1rem;
+    margin-right: 10px;
+    background-color: #007bff; /* Accent blue */
+    color: white;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+/* Button Styles */
+button { /* General button reset/base */
+    padding: 0.65rem 1.2rem;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.15s ease-in-out;
+    font-weight: 500;
+}
+button:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5); /* Focus ring */
+}
+
+#processFileButton {
+    color: white;
+    background-color: #28a745; /* Green for processing */
+}
+#processFileButton:hover {
+    background-color: #218838; /* Darker green */
+}
+#processFileButton:disabled {
+    background-color: #adb5bd; /* Gray for disabled */
+    cursor: not-allowed;
+}
+
+#downloadExcelButton {
+    color: white;
+    background-color: #007bff; /* Accent blue for download */
+    display: block; 
+    margin: 20px auto 10px auto; 
+}
+#downloadExcelButton:hover {
+    background-color: #0056b3; /* Darker blue */
+}
+#downloadExcelButton:disabled {
+    background-color: #adb5bd;
+    cursor: not-allowed;
+}
+
+
+.form-text {
+    font-size: 0.875rem; /* Slightly larger for better readability */
+    color: #6c757d; /* Standard muted text color */
+    width: 100%; 
+    margin-top: 8px; 
+    display: block; 
+}
+
+/* Result Container & Messages */
+.results-card .results-title { /* Title specifically for the results card */
+    font-size: 1.4rem;
+    color: #005A9C;
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e9ecef;
+    font-weight: 500;
+}
+#resultContainer {
+    margin-top: 0; /* Reset margin as it's inside a card */
+    padding: 0; /* Reset padding as it's inside a card */
+    border: none; /* Remove dashed border, card provides outline */
+    min-height: 70px; 
+    background-color: transparent; /* Card provides background */
+    overflow-x: auto; 
+}
+
+.info-message, .error-message {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.info-message {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+.error-message {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    font-weight: 500; /* Slightly bolder for errors */
+}
+
+#initialMessage {
+    color: #495057; /* Medium gray */
+    text-align: left;
+    padding: 10px 0; 
+    font-style: italic;
+}
+#initialMessage br {
+    margin-bottom: 8px; 
+}
+
+
+/* Results Table (Generic) & Timesheet Table Specifics */
+.results-table { 
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 0.9em;
+    border: 1px solid #dee2e6; /* Add border to the table itself */
+}
+
+.results-table caption {
+    font-size: 1.2em; /* Slightly larger caption */
+    font-weight: 600; /* Bolder caption */
+    padding: 10px 0 15px 0; /* More space below caption */
+    color: #343a40; /* Darker caption text */
+    caption-side: top;
+    text-align: left;
+}
+
+.results-table th,
+.results-table td {
+    border: 1px solid #e0e0e0; /* Slightly lighter cell borders */
+    padding: 0.6rem 0.75rem; /* Adjusted padding */
+    text-align: left; 
+    white-space: nowrap; 
+}
+
+.results-table th {
+    vertical-align: middle; 
+    text-align: center; 
+    line-height: 1.4; 
+    background-color: #e9ecef; /* Light gray for headers */
+    font-weight: 500; /* Medium weight for headers */
+    color: #495057; /* Darker gray for header text */
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.results-table thead tr:nth-child(2) th { /* Day of week row */
+    font-weight: normal;
+    font-size: 0.85em; /* Slightly larger */
+    color: #555;
+    background-color: #f8f9fa; /* Even lighter for day of week */
+}
+
+
+.results-table td:first-child { /* Allow wrapping for employee name + ID */
+    white-space: normal; 
+    text-align: left;
+    min-width: 200px; /* Ensure name column has enough space */
+}
+
+.results-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa; /* Very light gray for even rows */
+}
+
+.results-table tbody tr:hover {
+    background-color: #e9ecef; /* Hover effect */
+}
+
+/* Specific for timesheet table attendance marks */
+.timesheet-table .attendance-mark {
+    text-align: center;
+    font-weight: bold;
+}
+
+.nguoi-thuc-hien-name {
+    color: #c82333; /* Softer, professional red */
+    font-weight: 500;
+}
+
+.nguoi-thuc-hien-date {
+    color: #c82333; 
+    font-weight: 500;
+}
+
+.weekend-header {
+    background-color: #f0f2f5 !important; /* Slightly distinct light gray for weekend headers */
+    color: #333;
+}
+
+.weekend-data-cell {
+    background-color: #f0f2f5; 
+}
+.results-table tbody tr:nth-child(even) .weekend-data-cell {
+    background-color: #f0f2f5; 
+}
+.results-table tbody tr:hover .weekend-data-cell {
+    background-color: #e2e6ea; 
+}
+
+/* Footer Styles */
+.app-footer {
+    background-color: #343a40; /* Dark footer */
+    color: #f8f9fa; /* Light text on dark footer */
+    padding: 1.5rem 0;
+    text-align: center;
+    margin-top: auto; /* Pushes footer to bottom if content is short */
+    font-size: 0.9rem;
+}
+.footer-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.app-footer p {
+    margin: 0;
+}
+
+
+/* Accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) { 
+    .container {
+        width: 95%;
+    }
+    h1 {
+        font-size: 1.75rem;
+    }
+     .results-table {
+        font-size: 0.85em;
+    }
+    .results-table th,
+    .results-table td {
+        padding: 0.5rem 0.6rem;
+    }
+     .results-table thead tr:nth-child(2) th {
+        font-size: 0.8em;
+    }
+    .card h2, .results-card .results-title {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .controls {
+        flex-direction: column;
+        align-items: stretch; 
+    }
+
+    input[type="file"], button {
+        width: 100%;
+        box-sizing: border-box; /* Ensure padding/border doesn't expand width */
+    }
+    button:not(:last-child) {
+        margin-bottom: 10px; /* Space between stacked buttons */
+    }
+    #processFileButton { 
+        margin-top: 10px; 
+    }
+    .controls-section .controls #processFileButton { 
+        margin-top: 0; 
+         /* If it's the second element in flex-column, it might get margin-top if first is file input */
+        /* This might need adjustment depending on exact flex behavior */
+    }
+     .controls input[type="file"] + #processFileButton {
+        margin-top: 10px; /* Specific space when button follows input in column */
+    }
+
+
+    #downloadExcelButton {
+        width: auto; /* Let it size by content + padding */
+        max-width: calc(100% - 40px); 
+    }
+    
+    .app-header .header-container, .app-footer .footer-container {
+        width: 95%;
+        font-size: 1.2rem;
+    }
+    .app-footer {
+        padding: 1rem 0;
+    }
+
+}
+
+/* Specific adjustment for XML input and button layout at medium screens */
+@media (min-width: 450px) and (max-width: 600px) { 
+      .controls-section .controls {
+        flex-direction: row; 
+        align-items: center;
+      }
+      .controls-section .controls input[type="file"] {
+        flex-grow: 1;
+        width: auto; /* Reset width */
+      }
+       .controls-section .controls  #processFileButton {
+         flex-grow: 0; 
+         width: auto; /* Reset width */
+         margin-top: 0;
+         margin-left: 10px; /* Space between input and button */
+       }
+       .controls input[type="file"] + #processFileButton { /* Override more general stacking rule */
+            margin-top: 0;
+       }
+}
