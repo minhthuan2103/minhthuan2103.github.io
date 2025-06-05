@@ -1,4 +1,3 @@
-
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -8,7 +7,7 @@
 // import * as XLSX from 'xlsx'; // Or whatever the library's import mechanism is.
 // Since we cannot add external libraries in this environment without user action,
 // we'll use a placeholder and a very simple CSV-like parser if no library is found.
-var XLSX; // Declare XLSX to avoid TypeScript errors if the library is loaded globally.
+// NOTE: The 'var XLSX;' declaration that was here previously caused the bug. It has been removed.
 
 let draggedItemId = null;
 let uniqueIdsForTable = []; // Stores the current display order of IDs
@@ -103,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const data = event.target?.result;
                     const newEmployeeData = new Map();
                     let parsedSuccessfully = false;
-                    const canUseXLSX = typeof XLSX !== 'undefined';
+                    const canUseXLSX = typeof XLSX !== 'undefined'; // This now correctly checks global XLSX
                     const isExcelFileByMimeOrExt = file.type.startsWith('application/vnd.ms-excel') || file.type.startsWith('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') || file.name.toLowerCase().endsWith('.xls') || file.name.toLowerCase().endsWith('.xlsx');
                     const isCsvOrTxtFileByMimeOrExt = file.type === 'text/csv' || file.name.toLowerCase().endsWith('.csv') || file.name.toLowerCase().endsWith('.txt');
 
@@ -175,14 +174,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
             reader.onerror = () => reject(new Error(`Lỗi đọc tệp nhân viên: ${file.name}`));
-            const canUseXLSXLib = typeof XLSX !== 'undefined';
+            
+            const canUseXLSXLibCheckOnReadStart = typeof XLSX !== 'undefined'; // Check again right before read
             const isExcelFile = file.name.toLowerCase().endsWith('.xls') || file.name.toLowerCase().endsWith('.xlsx') || file.type.startsWith('application/vnd.ms-excel') || file.type.startsWith('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
             const isCsvTxtFile = file.name.toLowerCase().endsWith('.csv') || file.name.toLowerCase().endsWith('.txt') || file.type === 'text/csv';
-            if (canUseXLSXLib && isExcelFile) reader.readAsArrayBuffer(file);
+
+            if (canUseXLSXLibCheckOnReadStart && isExcelFile) reader.readAsArrayBuffer(file);
             else if (isCsvTxtFile) reader.readAsText(file);
             else {
                  let message = `Loại tệp không được hỗ trợ cho danh sách nhân viên: ${file.name}.`;
-                 if (isExcelFile && !canUseXLSXLib) message = `Thư viện XLSX cần để xử lý "${file.name}". Hiện tại chỉ hỗ trợ .csv hoặc .txt.`;
+                 if (isExcelFile && !canUseXLSXLibCheckOnReadStart) message = `Thư viện XLSX cần để xử lý "${file.name}". Hiện tại chỉ hỗ trợ .csv hoặc .txt.`;
                  displayMessage(message, 'error-message');
                  resolve(new Map());
             }
@@ -637,17 +638,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         let currentCellStyle = { ...initialCellStyle }; 
 
                         if (isWeekend) {
-                            currentCellStyle.fill = weekendCellFill; 
+                            currentCellStyle.fill = { ...(currentCellStyle.fill || {}), ...weekendCellFill };
                         }
                         
                         if (cellObj) {
                             cellObj.s = currentCellStyle;
+                        } else { // Cell might not exist if value is empty, create it for styling
+                             XLSX.utils.sheet_add_aoa(worksheet, [['']], {origin: {r:r, c:excelColIdx}});
+                             worksheet[XLSX.utils.encode_cell({r:r, c:excelColIdx})].s = currentCellStyle;
                         }
                     }
                 });
                 worksheet['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 1, c: 0 } }];
                 worksheet['!cols'] = [{ wch: 35 }, ...Array(daysInMonth).fill({ wch: 4 })];
-                worksheet['!rows'] = [ {hpx: 30}, {hpx: 25} ];
+                worksheet['!rows'] = [ {hpx: 30}, {hpx: 25} ]; // hpx for height in pixels
                 const workbook = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(workbook, worksheet, `Tháng ${month + 1}-${year}`);
                 XLSX.writeFile(workbook, filename);
