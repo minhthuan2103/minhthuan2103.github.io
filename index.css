@@ -1,5 +1,6 @@
 
 
+
 /* General Styles */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -333,6 +334,30 @@ button:focus {
 .results-table tbody tr:hover .weekend-data-cell {
     background-color: #e2e6ea; 
 }
+
+/* Drag and Drop Styles for Timesheet Table */
+.timesheet-table tbody tr[draggable="true"] {
+    cursor: grab;
+}
+
+.timesheet-table tbody tr.dragging {
+    opacity: 0.6;
+    background-color: #dcedc8; /* Light green when dragging */
+    cursor: grabbing;
+}
+
+.timesheet-table tbody tr.drag-over-target {
+    outline: 2px dashed #007bff; /* Blue dashed outline as drop indicator */
+    outline-offset: -2px; /* Pull outline inside the cell borders */
+    background-color: #e6f2ff; /* Light blue background for drop target */
+}
+
+/* Optional: Style for all rows that are potential drop candidates (not the one being dragged) */
+.timesheet-table tbody tr.drop-candidate {
+    /* You can add subtle styling here if needed, e.g., a very light border or background change */
+    /* For now, drag-over-target provides the main feedback */
+}
+
 
 /* Footer Styles */
 .app-footer {
