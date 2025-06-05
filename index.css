@@ -1,6 +1,4 @@
 
-
-
 /* General Styles */
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -54,11 +52,12 @@ h1 {
     font-size: 1rem;
 }
 .app-description code {
-     background-color: #e9ecef;
-     padding: 0.2em 0.4em;
-     border-radius: 3px;
-     font-size: 0.9em;
-     color: #c82333; /* Softer red for code in description */
+     background-color: transparent; /* Make background transparent */
+     padding: 0; /* Remove padding */
+     border-radius: 0; /* Remove border-radius */
+     font-size: inherit; /* Inherit font size */
+     color: inherit; /* Inherit color */
+     font-family: inherit; /* Inherit font family */
 }
 
 
@@ -74,7 +73,7 @@ li {
     margin-bottom: 0.5rem;
 }
 
-code {
+code { /* General code styling, if needed elsewhere, otherwise can be more specific */
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     background-color: #e9ecef;
     padding: 0.2em 0.4em;
@@ -307,17 +306,18 @@ button:focus {
 /* Specific for timesheet table attendance marks */
 .timesheet-table .attendance-mark {
     text-align: center;
-    font-weight: bold;
+    font-weight: bold; /* Normal marks are bold */
 }
 
 .nguoi-thuc-hien-name {
-    color: #c82333; /* Softer, professional red */
-    font-weight: 500;
+    /* font-weight: bold; removed */
 }
 
 .nguoi-thuc-hien-date {
-    color: #c82333; 
-    font-weight: 500;
+    /* font-weight: bold; removed */
+    /* Normal marks are already bold via .attendance-mark, so NTH dates will also be bold if they have .attendance-mark. */
+    /* If NTH marks should NOT be bold, then .nguoi-thuc-hien-date would need font-weight: normal !important; */
+    /* However, the request is to remove *extra* NTH styling. Standard mark styling (bold) should apply if it's a mark. */
 }
 
 .weekend-header {

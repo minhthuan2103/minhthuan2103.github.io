@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const canUseXLSX = typeof window.XLSX !== 'undefined';
                     const isExcelFileByMimeOrExt = file.type.startsWith('application/vnd.ms-excel') || file.type.startsWith('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') || file.name.toLowerCase().endsWith('.xls') || file.name.toLowerCase().endsWith('.xlsx');
                     const isCsvOrTxtFileByMimeOrExt = file.type === 'text/csv' || file.name.toLowerCase().endsWith('.csv') || file.name.toLowerCase().endsWith('.txt');
-                    if (canUseXLSX && isExcelFileByMimeOrExt && data instanceof ArrayBuffer) {
+                    if (canUseXLSX && window.XLSX && isExcelFileByMimeOrExt && data instanceof ArrayBuffer) {
                         const workbook = window.XLSX.read(data, { type: 'array' });
                         const firstSheetName = workbook.SheetNames[0];
                         const worksheet = workbook.Sheets[firstSheetName];
@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', () => {
     daysInMonth, currentEmployeeData) {
         console.log('Inside setupDownloadButton. Checking window.XLSX:', typeof window.XLSX, window.XLSX);
         button.onclick = () => {
-            if (typeof window.XLSX === 'undefined') {
+            if (typeof window.XLSX === 'undefined' || !window.XLSX) {
                 displayMessage("Lỗi: Không thể tạo tệp Excel do thư viện XLSX chưa được tải.", "error-message", true);
                 console.error("XLSX library is undefined when trying to generate Excel file.");
                 return;
@@ -542,20 +542,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dayOfWeekFont = { name: 'Arial', sz: 9, bold: false, color: { rgb: "000000" } };
                 const dayOfWeekFill = { fgColor: { rgb: "E0E0E0" } };
                 const baseDayOfWeekStyle = { font: dayOfWeekFont, fill: dayOfWeekFill, alignment: headerAlign, border: allBorders };
-                const idNameFont = { name: 'Arial', sz: 10 };
+                const idNameFont = { name: 'Arial', sz: 10 }; // Base font for ID/Name (NOT BOLD)
                 const idNameAlign = { horizontal: "left", vertical: "center" };
                 const baseIdNameStyle = { font: idNameFont, alignment: idNameAlign, border: allBorders };
-                const idNameNthFont = { ...idNameFont, color: { rgb: "FF0000" } };
+                // NTH ID/Name: NOT Bold, default (black) color
+                const idNameNthFont = { ...idNameFont }; // No bold: true
                 const baseIdNameNthStyle = { font: idNameNthFont, alignment: idNameAlign, border: allBorders };
-                const markFont = { name: 'Arial', sz: 10, bold: true };
+                const markFont = { name: 'Arial', sz: 10, bold: true }; // Base font for attendance marks (ALREADY BOLD)
                 const markAlign = { horizontal: "center", vertical: "center" };
                 const baseMarkStyle = { font: markFont, alignment: markAlign, border: allBorders };
-                const markNthFont = { ...markFont, color: { rgb: "FF0000" } };
+                // NTH Marks: NOT Italic, NOT Bold
+                const markNthFont = { name: 'Arial', sz: 10, bold: false, italic: false };
                 const baseMarkNthStyle = { font: markNthFont, alignment: markAlign, border: allBorders };
                 const defaultFontForEmptyCells = { name: 'Arial', sz: 10 };
                 const baseEmptyCellStyle = { font: defaultFontForEmptyCells, border: allBorders, alignment: markAlign };
                 const weekendCellFill = { patternType: "solid", fgColor: { rgb: "F5F5F5" } };
-                const blackFontColor = { color: { rgb: "000000" } }; // This is a partial font style
+                const blackFontColor = { color: { rgb: "000000" } };
                 const headerRow1 = ["ID / TÊN NHÂN VIÊN"];
                 for (let day = 1; day <= daysInMonth; day++)
                     headerRow1.push(day);
@@ -566,7 +568,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 excelSheetData.push(headerRow2);
                 currentOrderedIds.forEach(id => {
                     const dataRow = [];
-                    // idIsNthSource for row data generation, not directly for style here
                     const employeeName = currentEmployeeData?.get(id);
                     dataRow.push(employeeName ? `${employeeName} (${id})` : id);
                     for (let day = 1; day <= daysInMonth; day++) {
@@ -589,7 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 for (let c = 1; c <= daysInMonth; c++) {
                     const dayOfWeek = getDayOfWeek(year, month, c);
                     let style = { ...baseHeaderStyle };
-                    if ([0, 6].includes(dayOfWeek) && style.font) { // Ensure font exists before modifying
+                    if ([0, 6].includes(dayOfWeek) && style.font) {
                         style.fill = weekendCellFill;
                         style.font = { ...style.font, ...blackFontColor };
                     }
@@ -669,4 +670,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     resetUI();
 });
-    
